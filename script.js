@@ -10,6 +10,7 @@ const firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
+let drawingRef = null;
 // ✅ 說話
 function speak(text) {
   const synth = window.speechSynthesis;
@@ -69,7 +70,7 @@ document.querySelectorAll(".colorBtn").forEach(btn => {
 // ✅ 清除畫布
 clearBtn.addEventListener("click", () => {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  firebase.database().ref("drawings").remove();
+  firebase.database().ref(`drawings/${playerName}`).remove();
   speak("畫布清乾淨了！");
 });
 
@@ -124,6 +125,7 @@ setInterval(async () => {
 }, 7000);
 
 assignPlayerRole();
+drawingRef = firebase.database().ref(`drawings/${playerName}`);
 
 function startCountdown(duration) {
   const timerDisplay = document.getElementById("timer");
@@ -195,14 +197,14 @@ hands.onResults(results => {
     ctx.lineWidth = penSize;
     ctx.stroke();
 
-    firebase.database().ref("drawings").push({
-      x1: lastX,
-      y1: lastY,
-      x2: x,
-      y2: y,
-      color: playerColor,
-      size: penSize
-    });
+   drawingRef.push({
+  x1: lastX,
+  y1: lastY,
+  x2: x,
+  y2: y,
+  color: playerColor,
+  size: penSize
+});
 
     lastX = x;
     lastY = y;
@@ -237,6 +239,24 @@ function startDrawing() {
   document.getElementById("prompt").textContent = "🎨 任務： " + task;
   speak("今天的任務是 " + task);
 
+  // ✅ 監聽所有玩家的畫圖資料
+firebase.database().ref("drawings").on("child_added", snapshot => {
+  const name = snapshot.key;
+
+  if (name !== playerName) {
+    firebase.database().ref(`drawings/${name}`).on("child_added", snap => {
+      const line = snap.val();
+      if (line && line.x1 !== undefined) {
+        ctx.beginPath();
+        ctx.moveTo(line.x1, line.y1);
+        ctx.lineTo(line.x2, line.y2);
+        ctx.strokeStyle = line.color || "#000";
+        ctx.lineWidth = line.size || 5;
+        ctx.stroke();
+      }
+    });
+  }
+});
   // 顯示攝影機
   videoElement.style.display = "block";
 
