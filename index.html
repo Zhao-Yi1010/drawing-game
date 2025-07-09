@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>合作</title>
+  <link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<!-- 🎥 攝影機畫面 -->
+<video id="webcam" autoplay playsinline></video>
+
+<!-- 顯示任務提示 -->
+<h2 id="prompt">請稍候載入任務...</h2>
+
+<!-- 👶 幼兒玩法說明畫面 -->
+<div id="howToPlay" class="modal">
+  <div class="modal-content">
+    <h2>一起完成畫畫任務 🎨</h2>
+    <ul>
+      <li>👆 對準鏡頭，讓手指當畫筆</li>
+      <li>🎤 說出顏色名稱換筆顏色</li>
+      <li>🧼 點擊清除可以擦掉畫面</li>
+      <li>🎉 任務完成後按下完成按鈕</li>
+    </ul>
+    <button id="startBtn">我知道了，開始畫畫！</button>
+  </div>
+</div>
+
+<!-- 🎨 顏色選擇 -->
+<div id="colorSelector" style="display:none;">
+  <button class="colorBtn" style="background:#FF0000;" data-color="#FF0000"></button>
+  <button class="colorBtn" style="background:#FF8000;" data-color="#FF8000"></button>
+  <button class="colorBtn" style="background:#FFFF00;" data-color="#FFFF00"></button>
+  <button class="colorBtn" style="background:#00FF00;" data-color="#00FF00"></button>
+  <button class="colorBtn" style="background:#0000FF;" data-color="#0000FF"></button>
+  <button class="colorBtn" style="background:#8000FF;" data-color="#8000FF"></button>
+  <button class="colorBtn" style="background:#FF99CC;" data-color="#FF99CC"></button>
+  <button class="colorBtn" style="background:#000000;" data-color="#000000"></button>
+  <button class="colorBtn" style="background:#FFFFFF;" data-color="#FFFFFF"></button>
+</div>
+
+<!-- 🎉 完成任務 -->
+<button id="finishBtn" style="display:none;">🎉 完成任務</button>
+
+<!-- 🧼 清除畫布 -->
+<button id="clearBtn" style="display:none;">清除畫布</button>
+
+<!-- 🔄 重設玩家（避免 JS 出錯）-->
+<button id="resetPlayersBtn" style="display:none;">重設玩家</button>
+
+<!-- 🖼️ 畫布 -->
+<canvas id="output"></canvas>
+
+<!-- ⏲️ 倒數計時器 -->
+<div id="timer"></div>
+
+<!-- 🎯 畫筆指標 -->
+<div id="cursorDot"></div>
+
+<!-- ✅ Firebase CDN -->
+<script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-database-compat.js"></script>
+
+<!-- ✅ MediaPipe Hands + Camera -->
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.min.js"></script>
+
+<!-- 你的 JS 主程式 -->
+<script src="script.js"></script>
+<!-- partial -->
+  <script src='https://www.gstatic.com/firebasejs/11.9.0/firebase-app.js'></script>
+<script src='https://www.gstatic.com/firebasejs/11.9.0/firebase-database.js'></script>
+<script src='https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js'></script>
+<script src='https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js'></script><script  src="./script.js"></script>
+
+</body>
+</html>
